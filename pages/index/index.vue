@@ -28,6 +28,17 @@
 				<view class="todo-list__content">我的待办事项</view>
 			</view>
 		</view>
+
+		<!-- 创建按钮 -->
+		<view class="create-todo"><text class="iconfont icon-jiahao"></text></view>
+
+		<!-- 输入框 -->
+		<view class="create-content">
+			<view class="create-content-box">
+				<view class="create-input"><input type="text" value="" placeholder="请输入待办事项" /></view>
+				<view class="create-button">创建</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -42,6 +53,7 @@ export default {
 </script>
 
 <style>
+@import url('../../common/icon.css');
 .todo-header {
 	/* position: fixed;
 	top: 0;
@@ -95,7 +107,7 @@ export default {
 	border-radius: 10px;
 	font-size: 14px;
 	color: #0c3854;
-	background-color: #abcdef;
+	background-color: #abcfed;
 	box-shadow: -1px 1px 5px 1px rgba(0, 0, 0, 0.1), -1px 2px 1px 0 rgba(255, 255, 255) inset;
 	overflow: hidden;
 }
@@ -107,7 +119,7 @@ export default {
 	bottom: 0;
 	left: 0;
 	width: 5px;
-	background-color: #ff0066;
+	background-color: #f06;
 }
 
 .todo-list__checkbox {
@@ -159,5 +171,91 @@ export default {
 
 .todo--finsh.todo-list:after {
 	background-color: #ccc;
+}
+
+.create-todo {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	bottom: 20px;
+	left: 0;
+	right: 0;
+	width: 50px;
+	height: 50px;
+	margin: 0 auto;
+	border-radius: 50%;
+	/* font-size: 14px; */
+	background-color: #96f;
+	box-shadow: -1px 1px 5px 2px rgba(0, 0, 0, 0.1), -1px 1px 1px 0 rgba(255, 255, 255) inset;
+}
+
+.icon-jiahao {
+	font-size: 30px;
+	color: #ddd;
+}
+
+.create-content {
+	position: fixed;
+	bottom: 95px;
+	left: 20px;
+	right: 20px;
+}
+.create-content:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -8px;
+	margin: 0 auto;
+	width: 20px;
+	height: 20px;
+	background-color: #f69;
+	transform: rotate(45deg);
+	box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.1);
+	z-index: -1;
+}
+
+.create-content-box {
+	display: flex;
+	align-items: center;
+	padding: 0 15px;
+	padding-right: 0;
+	border-radius: 50px;
+	background-color: #f69;
+	box-shadow: -1px 1px 5px 2px rgba(0, 0, 0, 0.1), -1px 1px 1px 0 rgba(255, 255, 255) inset;
+	z-index: 2;
+}
+
+.create-content-box:after {
+	content: '';
+	position: absolute;
+	right: 0;
+	left: 0;
+	bottom: -8px;
+	margin: 0 auto;
+	width: 20px;
+	height: 20px;
+	background-color: #f69;
+	transform: rotate(45deg);
+}
+
+.create-input {
+	width: 100%;
+	padding-right: 15px;
+	color: #add8e6;
+}
+
+.create-button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-shrink: 0;
+	width: 80px;
+	height: 50px;
+	border-radius: 50px;
+	font-size: 16px;
+	color: #fff;
+	box-shadow: -2px 0px 2px 1px rgba(0, 0, 0, 0.1);
 }
 </style>
