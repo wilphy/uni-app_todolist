@@ -25,22 +25,22 @@
 		</view>
 		<!-- 内容 -->
 		<view class="todo-content" v-else>
-			<view class="todo-list todo--finsh" v-for="(item, index) in list" :key="index">
+			<view class="todo-list" v-for="(item, index) in list" :key="index">
 				<view class="todo-list__checkbox"><view class="checkbox"></view></view>
 				<view class="todo-list__content">{{ item.content }}</view>
 			</view>
 		</view>
 
 		<!-- 创建按钮 -->
-		<view class="create-todo"><text class="iconfont icon-jiahao"></text></view>
+		<view class="create-todo" @click="create"><text class="iconfont icon-jiahao"></text></view>
 
 		<!-- 输入框 -->
 		<view class="create-content" v-if="active">
 			<view class="create-content-box">
 				<!-- input输入 -->
-				<view class="create-input"><input type="text" value="" placeholder="请输入待办事项" /></view>
+				<view class="create-input"><input type="text" v-model="value" placeholder="请输入待办事项" /></view>
 				<!-- 发布按钮 -->
-				<view class="create-button">创建</view>
+				<view class="create-button" @click="add">创建</view>
 			</view>
 		</view>
 	</view>
@@ -50,22 +50,32 @@
 export default {
 	data() {
 		return {
-			list: [
-				// {
-				// 	content: 'text1'
-				// },
-				// {
-				// 	content: 'text2'
-				// },
-				// {
-				// 	content: 'text3'
-				// }
-			],
-			active: false
+			list: [],
+			active: false,
+			value: ''
 		};
 	},
 	onLoad() {},
-	methods: {}
+	methods: {
+		//打开输入框
+		create() {
+			this.active = !this.active;
+		},
+		add() {
+			if (this.value === '') {
+				uni.showToast({
+					title: '请输入内容',
+					icon: 'none'
+				});
+				return;
+			}
+			this.list.unshift({
+				content: this.value
+			});
+			this.value = '';
+			this.active = false;
+		}
+	}
 };
 </script>
 
@@ -292,6 +302,6 @@ export default {
 .default-info {
 	text-align: center;
 	font-size: 14px;
-	color: #ccc;
+	`color: #ccc;
 }
 </style>
