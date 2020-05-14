@@ -25,7 +25,7 @@
 		</view>
 		<!-- 内容 -->
 		<view class="todo-content" v-else>
-			<view class="todo-list" v-for="(item, index) in list" :key="index">
+			<view class="todo-list" :class="{ 'todo--finsh': item.checked }" v-for="(item, index) in list" :key="index" @click="finish(item.id)">
 				<view class="todo-list__checkbox"><view class="checkbox"></view></view>
 				<view class="todo-list__content">{{ item.content }}</view>
 			</view>
@@ -61,6 +61,7 @@ export default {
 		create() {
 			this.active = !this.active;
 		},
+		// 创建任务
 		add() {
 			if (this.value === '') {
 				uni.showToast({
@@ -70,10 +71,18 @@ export default {
 				return;
 			}
 			this.list.unshift({
-				content: this.value
+				content: this.value,
+				id: 'id' + new Date().getTime(),
+				checked: false
 			});
 			this.value = '';
 			this.active = false;
+		},
+		// 完成任务
+		finish(id) {
+			let index = this.list.findIndex(item => item.id === id);
+			// console.log(this.list[index]);
+			this.list[index].checked = !this.list[index].checked;
 		}
 	}
 };
