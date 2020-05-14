@@ -4,14 +4,14 @@
 		<view class="todo-header" v-if="list.length !== 0">
 			<!-- 状态栏的左侧 -->
 			<view class="todo-header__left">
-				<text class="active-text">全部</text>
-				<text>999条</text>
+				<text class="active-text">{{ text }}</text>
+				<text>{{ listData.length }}条</text>
 			</view>
 			<!-- 状态栏的右侧 -->
 			<view class="todo-header__right">
-				<view class="todo-header__right-item active-tab">全部</view>
-				<view class="todo-header__right-item">待办</view>
-				<view class="todo-header__right-item">已完成</view>
+				<view class="todo-header__right-item" :class="{ 'active-tab': activeIndex === 0 }" @click="tab(0)">全部</view>
+				<view class="todo-header__right-item" :class="{ 'active-tab': activeIndex === 1 }" @click="tab(1)">待办</view>
+				<view class="todo-header__right-item" :class="{ 'active-tab': activeIndex === 2 }" @click="tab(2)">已完成</view>
 			</view>
 		</view>
 
@@ -25,7 +25,7 @@
 		</view>
 		<!-- 内容 -->
 		<view class="todo-content" v-else>
-			<view class="todo-list" :class="{ 'todo--finsh': item.checked }" v-for="(item, index) in list" :key="index" @click="finish(item.id)">
+			<view class="todo-list" :class="{ 'todo--finsh': item.checked }" v-for="(item, index) in listData" :key="index" @click="finish(item.id)">
 				<view class="todo-list__checkbox"><view class="checkbox"></view></view>
 				<view class="todo-list__content">{{ item.content }}</view>
 			</view>
@@ -50,12 +50,48 @@
 export default {
 	data() {
 		return {
-			list: [],
-			active: false,
-			value: ''
+			list: [], // 任务列表
+			active: false, // 激活创建状态
+			value: '', // 输入框
+			activeIndex: 0, // 状态栏
+			text: '全部'
 		};
 	},
 	onLoad() {},
+	computed: {
+		listData() {
+			let list = JSON.parse(JSON.stringify(this.list)); // 深拷贝
+			let newList = [];
+			// 全部
+			if (this.activeIndex === 0) {
+				this.text = '全部';
+				return list;
+			}
+			// 待办
+			if (this.activeIndex === 1) {
+				this.text = '待办';
+				// checked = false
+				list.forEach(item => {
+					if (!item.checked) {
+						newList.push(item);
+					}
+				});
+				return newList;
+			}
+			// 已完成
+			if (this.activeIndex === 2) {
+				this.text = '已完成';
+				// checked = true
+				list.forEach(item => {
+					if (item.checked) {
+						newList.push(item);
+					}
+				});
+				return newList;
+			}
+			return [];
+		}
+	},
 	methods: {
 		//打开输入框
 		create() {
@@ -83,6 +119,9 @@ export default {
 			let index = this.list.findIndex(item => item.id === id);
 			// console.log(this.list[index]);
 			this.list[index].checked = !this.list[index].checked;
+		},
+		tab(index) {
+			this.activeIndex = index;
 		}
 	}
 };
