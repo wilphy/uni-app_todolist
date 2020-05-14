@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<!-- 状态栏 -->
-		<view class="todo-header">
+		<view class="todo-header" v-if="list.length !== 0">
 			<!-- 状态栏的左侧 -->
 			<view class="todo-header__left">
 				<text class="active-text">全部</text>
@@ -15,17 +15,19 @@
 			</view>
 		</view>
 
-		<!-- 内容 -->
-		<view class="todo-content">
-			<view class="todo-list todo--finsh">
-				<view class="todo-list__checkbox"><view class="checkbox"></view></view>
-				<view class="todo-list__content">我的待办事项</view>
+		<!-- 没有数据 -->
+		<view class="default" v-if="list.length === 0">
+			<view class="image-default"><image src="../../static/default.png" mode="aspectFit"></image></view>
+			<view class="default-info">
+				<view class="default-info__text">没有数据</view>
+				<view class="default-info__text">点击下方+号开始创建</view>
 			</view>
 		</view>
-		<view class="todo-content">
-			<view class="todo-list">
+		<!-- 内容 -->
+		<view class="todo-content" v-else>
+			<view class="todo-list todo--finsh" v-for="(item, index) in list" :key="index">
 				<view class="todo-list__checkbox"><view class="checkbox"></view></view>
-				<view class="todo-list__content">我的待办事项</view>
+				<view class="todo-list__content">{{ item.content }}</view>
 			</view>
 		</view>
 
@@ -33,9 +35,11 @@
 		<view class="create-todo"><text class="iconfont icon-jiahao"></text></view>
 
 		<!-- 输入框 -->
-		<view class="create-content">
+		<view class="create-content" v-if="active">
 			<view class="create-content-box">
+				<!-- input输入 -->
 				<view class="create-input"><input type="text" value="" placeholder="请输入待办事项" /></view>
+				<!-- 发布按钮 -->
 				<view class="create-button">创建</view>
 			</view>
 		</view>
@@ -45,7 +49,20 @@
 <script>
 export default {
 	data() {
-		return {};
+		return {
+			list: [
+				// {
+				// 	content: 'text1'
+				// },
+				// {
+				// 	content: 'text2'
+				// },
+				// {
+				// 	content: 'text3'
+				// }
+			],
+			active: false
+		};
 	},
 	onLoad() {},
 	methods: {}
@@ -257,5 +274,24 @@ export default {
 	font-size: 16px;
 	color: #fff;
 	box-shadow: -2px 0px 2px 1px rgba(0, 0, 0, 0.1);
+}
+
+.default {
+	padding-top: 100px;
+}
+
+.image-default {
+	display: flex;
+	justify-content: center;
+}
+
+.image-default image {
+	width: 100%;
+}
+
+.default-info {
+	text-align: center;
+	font-size: 14px;
+	color: #ccc;
 }
 </style>
