@@ -22,9 +22,9 @@
 	content: "\e613";
 }
 .todo-header {
-	/* position: fixed;
-	top: 0;
-	left: 0; */
+	position: fixed;
+	/* top: 0; */
+	left: 0;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -41,7 +41,7 @@
 	-webkit-box-shadow: -1px 1px 5px 0 rgba(0, 0, 0, 0.1);
 	        box-shadow: -1px 1px 5px 0 rgba(0, 0, 0, 0.1);
 	background: #ffffff;
-	/* z-index: 10; */
+	z-index: 10;
 }
 .todo-header__left {
 	width: 100%;
@@ -66,6 +66,8 @@
 }
 .todo-content {
 	position: relative;
+	padding-top: 50px;
+	padding-bottom: 100px;
 }
 .todo-list {
 	position: relative;
@@ -242,5 +244,24 @@
 	color: #fff;
 	-webkit-box-shadow: -2px 0px 2px 1px rgba(0, 0, 0, 0.1);
 	        box-shadow: -2px 0px 2px 1px rgba(0, 0, 0, 0.1);
+}
+.default {
+	padding-top: 100px;
+}
+.image-default {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+}
+.image-default image {
+	width: 100%;
+}
+.default-info {
+	text-align: center;
+	font-size: 14px;
+	color: #ccc;
 }
 

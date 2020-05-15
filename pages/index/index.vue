@@ -32,10 +32,10 @@
 		</view>
 
 		<!-- 创建按钮 -->
-		<view class="create-todo" @click="create"><text class="iconfont icon-jiahao"></text></view>
+		<view class="create-todo" :class="{ 'create-to-active': textShow }" @click="create"><text class="iconfont icon-jiahao"></text></view>
 
 		<!-- 输入框 -->
-		<view class="create-content" v-if="active">
+		<view class="create-content" :class="{ 'create--show': textShow }" v-if="active">
 			<view class="create-content-box">
 				<!-- input输入 -->
 				<view class="create-input"><input type="text" v-model="value" placeholder="请输入待办事项" /></view>
@@ -54,7 +54,8 @@ export default {
 			active: false, // 激活创建状态
 			value: '', // 输入框
 			activeIndex: 0, // 状态栏
-			text: '全部'
+			text: '全部', // 标题栏
+			textShow: false // 创建按钮激活状态
 		};
 	},
 	onLoad() {},
@@ -95,7 +96,29 @@ export default {
 	methods: {
 		//打开输入框
 		create() {
-			this.active = !this.active;
+			if (this.active) {
+				this.close();
+			} else {
+				this.open();
+			}
+		},
+		// 打开动画
+		open() {
+			this.active = true;
+			this.$nextTick(() => {
+				setTimeout(() => {
+					this.textShow = true;
+				}, 50);
+			});
+		},
+		// 关闭动画
+		close() {
+			this.active = false;
+			this.$nextTick(() => {
+				setTimeout(() => {
+					this.textShow = false;
+				}, 350);
+			});
 		},
 		// 创建任务
 		add() {
@@ -112,7 +135,7 @@ export default {
 				checked: false
 			});
 			this.value = '';
-			this.active = false;
+			this.close();
 		},
 		// 完成任务
 		finish(id) {
@@ -130,9 +153,9 @@ export default {
 <style>
 @import url('../../common/icon.css');
 .todo-header {
-	/* position: fixed;
-	top: 0;
-	left: 0; */
+	position: fixed;
+	/* top: 0; */
+	left: 0;
 	display: flex;
 	align-items: center;
 	padding: 0 15px;
@@ -143,7 +166,7 @@ export default {
 	box-sizing: border-box;
 	box-shadow: -1px 1px 5px 0 rgba(0, 0, 0, 0.1);
 	background: #ffffff;
-	/* z-index: 10; */
+	z-index: 10;
 }
 
 .todo-header__left {
@@ -171,6 +194,8 @@ export default {
 
 .todo-content {
 	position: relative;
+	padding-top: 50px;
+	padding-bottom: 100px;
 }
 
 .todo-list {
@@ -275,7 +300,16 @@ export default {
 	bottom: 95px;
 	left: 20px;
 	right: 20px;
+	transition: all 0.3s;
+	opacity: 0;
+	transform: scale(0) translateY(200);
 }
+
+.create--show {
+	opacity: 1;
+	transform: scale(1) translateY(0);
+}
+
 .create-content:after {
 	content: '';
 	position: absolute;
@@ -350,6 +384,14 @@ export default {
 .default-info {
 	text-align: center;
 	font-size: 14px;
-	`color: #ccc;
+	color: #ccc;
+}
+
+.icon-jiahao {
+	transition: transform 0.3s;
+}
+
+.create-to-active {
+	transform: rotate(135deg);
 }
 </style>

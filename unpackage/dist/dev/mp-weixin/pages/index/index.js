@@ -135,7 +135,11 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
+//
 //
 //
 //
@@ -182,10 +186,81 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 var _default =
 {
   data: function data() {
-    return {};
+    return {
+      list: [], // 任务列表
+      active: false, // 激活创建状态
+      value: '', // 输入框
+      activeIndex: 0, // 状态栏
+      text: '全部' };
+
   },
   onLoad: function onLoad() {},
-  methods: {} };exports.default = _default;
+  computed: {
+    listData: function listData() {
+      var list = JSON.parse(JSON.stringify(this.list)); // 深拷贝
+      var newList = [];
+      // 全部
+      if (this.activeIndex === 0) {
+        this.text = '全部';
+        return list;
+      }
+      // 待办
+      if (this.activeIndex === 1) {
+        this.text = '待办';
+        // checked = false
+        list.forEach(function (item) {
+          if (!item.checked) {
+            newList.push(item);
+          }
+        });
+        return newList;
+      }
+      // 已完成
+      if (this.activeIndex === 2) {
+        this.text = '已完成';
+        // checked = true
+        list.forEach(function (item) {
+          if (item.checked) {
+            newList.push(item);
+          }
+        });
+        return newList;
+      }
+      return [];
+    } },
+
+  methods: {
+    //打开输入框
+    create: function create() {
+      this.active = !this.active;
+    },
+    // 创建任务
+    add: function add() {
+      if (this.value === '') {
+        uni.showToast({
+          title: '请输入内容',
+          icon: 'none' });
+
+        return;
+      }
+      this.list.unshift({
+        content: this.value,
+        id: 'id' + new Date().getTime(),
+        checked: false });
+
+      this.value = '';
+      this.active = false;
+    },
+    // 完成任务
+    finish: function finish(id) {
+      var index = this.list.findIndex(function (item) {return item.id === id;});
+      // console.log(this.list[index]);
+      this.list[index].checked = !this.list[index].checked;
+    },
+    tab: function tab(index) {
+      this.activeIndex = index;
+    } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 /* 17 */
